@@ -2,10 +2,167 @@
 <html>
 <head>
 <title>tsc-stream by mathfreak231</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script>
-var games = [];
+function onGameChange() {
+var catIDs = new Array();
+catIDs[0] = "abcdefghik"
+catIDs[666] = "AHIEbcdfgk"
+catIDs[5] = "AHIEbcdfgklmn";
+catIDs[124] = "ACHIEbdfgklmn";
+catIDs[128] = "AHEbcdfgiklmn";
+catIDs[6] = "AHIEGbcdfklmn";
+catIDs[127] = "ACHIEbdfgklmn";
+catIDs[10] = "AHIEbcdfgklmn";
+catIDs[112] = "AHIEbcdfgklmn";
+catIDs[7] = "ACHIGbdefklmn";
+catIDs[8] = "AHIGbcdefklmn";
+catIDs[106] = "AHIEbcdfgklmn";
+catIDs[114] = "AHIbcdefgklmn";
+catIDs[115] = "AHIEbcdfgklmn";
+catIDs[13] = "AHIEbcdfgklmn";
+catIDs[9] = "AHIbcdefgklmn";
+catIDs[3] = "AHIDFGbceklmn";
+catIDs[4] = "AHIDFGbceklmn";
+catIDs[11] = "ABHEFcdgiklmn";
+catIDs[25] = "AHIFbcdegklmn";
+catIDs[28] = "AHIbcdefgklmn";
+catIDs[30] = "AIFKbcdeghlmn";
+catIDs[92] = "ABKcdefghilmn";
+catIDs[86] = "AHFbcdegiklmn";
+catIDs[87] = "AHIFbcdegklmn";
+catIDs[94] = "AHIbcdefgklmn";
+catIDs[107] = "AHIFbcdegklmn";
+catIDs[111] = "ACBHIFdegklmn";
+catIDs[125] = "AHbcdefgiklmn";
+catIDs[14] = "AHIbcdefgklmn";
+catIDs[15] = "AHIbcdefgklmn";
+catIDs[16] = "AHIbcdefgklmn";
+catIDs[17] = "AHIbcdefgklmn";
+catIDs[20] = "AHIEbcdfgklmn";
+catIDs[1] = "AHIEbcdfgklmn";
+catIDs[2] = "AHIEFbcdgklmn";
+catIDs[23] = "AHEFbcdgiklmn";
+catIDs[24] = "ACHIEFbdgklmn";
+catIDs[61] = "ACBHIFdegklmn";
+catIDs[108] = "ABHIEFcdgklmn";
+catIDs[113] = "AHEFbcdgiklmn";
+catIDs[126] = "AHIEFbcdgklmn";
+catIDs[18] = "Abcdefghiklmn";
+catIDs[19] = "Abcdefghiklmn";
+catIDs[12] = "Abcdefghiklmn";
+catIDs[26] = "CDabefghiklmn";
+catIDs[73] = "CDabefghiklmn";
+catIDs[103] = "CDabefghiklmn";
+catIDs[109] = "Cabdefghiklmn";
+catIDs[118] = "CDabefghiklmn";
+catIDs[116] = "Cabdefghiklmn";
+catIDs[27] = "AHIFbcdegklmn";
+catIDs[62] = "AHIFbcdegklmn";
+catIDs[29] = "Abcdefghiklmn";
+catIDs[22] = "Iabcdefghklmn";
+catIDs[21] = "Abcdefghiklmn";
+updateCategories(catIDs);
+}
+
+function updateCategories(catIDs) {
+	var i;
+	var firstCat = 1;
+	var game = document.forms[0].game.value;
+	for (i = 0; i <= catIDs[game].length; i++)
+	{
+		var charValue = catIDs[game].charCodeAt(i);
+		if (charValue >= 65 && charValue <= 90)
+		{
+			charValue -= 64;
+			document.getElementById("category" + charValue).disabled = false;
+			document.getElementById("catdiv_" + charValue).style.display = "inline";
+			if (firstCat == 1)
+			{
+				document.getElementById("catdiv_bar_" + charValue).style.display = "none";
+				firstCat = 0;
+			}
+			else
+			{
+				document.getElementById("catdiv_bar_" + charValue).style.display = "inline";
+			}
+		}
+		else if (charValue >= 97 && charValue <= 122)
+		{
+			charValue -= 96;
+			document.getElementById("category" + charValue).disabled = true;
+			document.getElementById("catdiv_" + charValue).style.display = "none";
+			document.getElementById("catdiv_bar_" + charValue).style.display = "none";
+		}
+		if (game == 0)
+		{
+			document.getElementById("catdiv_sel").style.display = "inline";
+		}
+		else
+		{
+			document.getElementById("catdiv_sel").style.display = "none";
+		}
+	}
+}
 </script>
 </head>
 <body>
+  <select name='game'>
+    <option value='0' selected>Select a game:</option>
+	  <option value='5'>Sonic 1</option>
+	  <option value='124'>Sonic 1 2013</option>
+    <option value='128'>Sonic 1 Genesis (GBA)</option>
+		<option value='6'>Sonic 2</option>
+		<option value='127'>Sonic 2 2013</option>
+		<option value='10'>Sonic CD</option>
+		<option value='112'>Sonic CD 2011</option>
+		<option value='7'>Sonic 3</option>
+		<option value='8'>Sonic & Knuckles</option>
+		<option value='106'>Sonic 4: Episode I</option>
+		<option value='114'>Sonic 4: Episode Metal</option>
+		<option value='115'>Sonic 4: Episode II</option>
+		<option value='13'>Knuckles Chaotix</option>
+		<option value='9'>Sonic 3D Blast</option>
+		<option value='3'>Sonic Adventure (DX)</option>
+		<option value='4'>Sonic Adventure 2 (B)</option>
+		<option value='11'>Sonic Heroes</option>
+		<option value='25'>Shadow the Hedgehog</option>
+		<option value='28'>Sonic The Hedgehog</option>
+		<option value='30'>Sonic and the Secret Rings</option>
+		<option value='92'>Sonic and the Black Knight</option>
+		<option value='86'>Sonic Unleashed Wii-PS2</option>
+		<option value='87'>Sonic Unleashed 360-PS3</option>
+		<option value='94'>Sonic Unleashed DLC</option>
+		<option value='107'>Sonic Colors Wii</option>
+		<option value='111'>Sonic Generations</option>
+		<option value='125'>Sonic Lost World</option>
+		<option value='14'>Sonic 1 (GG)</option>
+		<option value='15'>Sonic 2 (GG)</option>
+		<option value='16'>Sonic Chaos</option>
+		<option value='17'>Sonic Triple Trouble</option>
+		<option value='20'>Sonic Pocket Adventure</option>
+		<option value='1'>Sonic Advance</option>
+		<option value='2'>Sonic Advance 2</option>
+		<option value='23'>Sonic Advance 3</option>
+		<option value='24'>Sonic Rush</option>
+		<option value='61'>Sonic Rush Adventure</option>
+		<option value='108'>Sonic Colors DS</option>
+		<option value='113'>Sonic Generations 3DS</option>
+		<option value='126'>Sonic Lost World 3DS</option>
+		<option value='18'>Sonic Drift</option>
+		<option value='19'>Sonic Drift 2</option>
+		<option value='12'>Sonic R</option>
+		<option value='26'>Sonic Riders</option>
+		<option value='73'>Sonic Riders: Zero Gravity</option>
+		<option value='103'>Sonic & Sega All-Stars Racing</option>
+		<option value='109'>Sonic & Sega All-Stars Racing DS</option>
+		<option value='118'>Sonic & All-Stars Racing Transformed</option>
+		<option value='116'>Sonic Free Riders</option>
+		<option value='27'>Sonic Rivals</option>
+		<option value='62'>Sonic Rivals 2</option>
+		<option value='29'>Sonic the Fighters</option>
+		<option value='22'>Sonic Battle</option>
+		<option value='21'>Sonic Jam</option>
+	</select>
 </body>
 </html>
