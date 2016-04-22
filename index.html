@@ -4,7 +4,7 @@
 <title>tsc-stream by mathfreak231</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script>
-function onGameChange() {
+$('select[name=game]').change(function() {
 var catIDs = new Array();
 catIDs[0] = "abcdefghik"
 catIDs[666] = "AHIEbcdfgk"
@@ -65,53 +65,15 @@ catIDs[21] = "Abcdefghiklmn";
 updateCategories(catIDs);
 }
 
-function updateCategories(catIDs) {
-	var i;
-	var firstCat = 1;
-	var game = document.forms[0].game.value;
-	for (i = 0; i <= catIDs[game].length; i++)
-	{
-		var charValue = catIDs[game].charCodeAt(i);
-		if (charValue >= 65 && charValue <= 90)
-		{
-			charValue -= 64;
-			document.getElementById("category" + charValue).disabled = false;
-			document.getElementById("catdiv_" + charValue).style.display = "inline";
-			if (firstCat == 1)
-			{
-				document.getElementById("catdiv_bar_" + charValue).style.display = "none";
-				firstCat = 0;
-			}
-			else
-			{
-				document.getElementById("catdiv_bar_" + charValue).style.display = "inline";
-			}
-		}
-		else if (charValue >= 97 && charValue <= 122)
-		{
-			charValue -= 96;
-			document.getElementById("category" + charValue).disabled = true;
-			document.getElementById("catdiv_" + charValue).style.display = "none";
-			document.getElementById("catdiv_bar_" + charValue).style.display = "none";
-		}
-		if (game == 0)
-		{
-			document.getElementById("catdiv_sel").style.display = "inline";
-		}
-		else
-		{
-			document.getElementById("catdiv_sel").style.display = "none";
-		}
-	}
-}
+
 </script>
 </head>
 <body>
   <select name='game'>
-    <option value='0' selected>Select a game:</option>
-	  <option value='5'>Sonic 1</option>
-	  <option value='124'>Sonic 1 2013</option>
-    <option value='128'>Sonic 1 Genesis (GBA)</option>
+		<option value='0' selected>Select a game:</option>
+		<option value='5'>Sonic 1</option>
+		<option value='124'>Sonic 1 2013</option>
+		<option value='128'>Sonic 1 Genesis (GBA)</option>
 		<option value='6'>Sonic 2</option>
 		<option value='127'>Sonic 2 2013</option>
 		<option value='10'>Sonic CD</option>
@@ -163,6 +125,19 @@ function updateCategories(catIDs) {
 		<option value='29'>Sonic the Fighters</option>
 		<option value='22'>Sonic Battle</option>
 		<option value='21'>Sonic Jam</option>
+	</select>
+	<select name="category">
+		<option value='1'>Times</option>
+		<option value='3'>Time Attack</option>
+		<option value='12'>Uber Times</option>
+		<option value='2'>Extra</option>
+		<option value='8'>Rings</option>
+		<option value='9'>Scores</option>
+		<option value='4'>Races</option>
+		<option value='5'>Special</option>
+		<option value='6'>Bosses</option>
+		<option value='11'>Ring Chains</option>
+		<option value='7'>Freestyle</option>
 	</select>
 </body>
 </html>
