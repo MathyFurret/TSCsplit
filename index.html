@@ -4,10 +4,9 @@
 <title>tsc-stream by mathfreak231</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script>
-$('select[name=game]').change(function() {
+//which games have which categories
 var catIDs = new Array();
-catIDs[0] = "abcdefghik"
-catIDs[666] = "AHIEbcdfgk"
+catIDs[0] = "abcdefghik";
 catIDs[5] = "AHIEbcdfgklmn";
 catIDs[124] = "ACHIEbdfgklmn";
 catIDs[128] = "AHEbcdfgiklmn";
@@ -62,8 +61,36 @@ catIDs[62] = "AHIFbcdegklmn";
 catIDs[29] = "Abcdefghiklmn";
 catIDs[22] = "Iabcdefghklmn";
 catIDs[21] = "Abcdefghiklmn";
-updateCategories(catIDs);
+
+//update the categories when a game is chosen
+function updateCategories() {
+	var game = $(this).val();
+	for (var i = 0; i = 0; i <= catIDs[game].length; i++) {
+		var charValue = catIDs[game].charCodeAt(i);
+		if (charValue >= 65 && charValue <= 90)
+		{
+			charValue -= 64;
+			$("select[name=category] option[value=" + charValue + "]").prop("disabled", false);
+			$("select[name=category] option[value=" + charValue + "]").show();
+		}
+		else if (charValue >= 97 && charValue <= 122)
+		{
+			charValue -= 96;
+			$("select[name=category] option[value=" + charValue + "]").prop("disabled", true);
+			$("select[name=category] option[value=" + charValue + "]").hide();
+		}
+		if (game == 0)
+		{
+			$("select[name=category]").hide();
+		}
+		else
+		{
+			$("select[name=category]").show();
+		}
+	}
 }
+
+$('select[name=game]').change(updateCategories);
 
 
 </script>
@@ -126,7 +153,7 @@ updateCategories(catIDs);
 		<option value='22'>Sonic Battle</option>
 		<option value='21'>Sonic Jam</option>
 	</select>
-	<select name="category">
+	<select name="category" style="display:none;">
 		<option value='1'>Times</option>
 		<option value='3'>Time Attack</option>
 		<option value='12'>Uber Times</option>
