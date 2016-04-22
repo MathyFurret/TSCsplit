@@ -65,7 +65,7 @@ catIDs[21] = "Abcdefghiklmn";
 //update the categories when a game is chosen
 function updateCategories() {
 	var game = $(this).val();
-	for (var i = 0; i = 0; i <= catIDs[game].length; i++) {
+	for (var i = 0; i <= catIDs[game].length; i++) {
 		var charValue = catIDs[game].charCodeAt(i);
 		if (charValue >= 65 && charValue <= 90)
 		{
