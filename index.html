@@ -6,7 +6,7 @@
 <script>
 //which games have which categories
 var catIDs = new Array();
-catIDs[0] = "abcdefghik";
+catIDs[0] = "";
 catIDs[5] = "AHIEbcdfgklmn";
 catIDs[124] = "ACHIEbdfgklmn";
 catIDs[128] = "AHEbcdfgiklmn";
@@ -87,6 +87,7 @@ function updateCategories() {
 		{
 			$("select[name=category]").show();
 		}
+		$("select[name=category]").val("0")
 	}
 }
 
@@ -96,9 +97,9 @@ $(document).ready(function() {
 
 </script>
 </head>
-<body>
-  <select name='game'>
-		<option value='0' selected>Select a game:</option>
+<body style="font:sans-serif;">
+  <label for="game">Game: </label><select name='game'>
+		<option value='0' selected>Select a game...</option>
 		<option value='5'>Sonic 1</option>
 		<option value='124'>Sonic 1 2013</option>
 		<option value='128'>Sonic 1 Genesis (GBA)</option>
@@ -154,7 +155,8 @@ $(document).ready(function() {
 		<option value='22'>Sonic Battle</option>
 		<option value='21'>Sonic Jam</option>
 	</select><br>
-	<select name="category" style="display:none;">
+	<label for="category">Category: </label><select name="category" style="display:none;">
+		<option value="0">Select a category...</option>
 		<option value='1'>Times</option>
 		<option value='3'>Time Attack</option>
 		<option value='12'>Uber Times</option>
@@ -166,6 +168,7 @@ $(document).ready(function() {
 		<option value='6'>Bosses</option>
 		<option value='11'>Ring Chains</option>
 		<option value='7'>Freestyle</option>
-	</select>
+	</select><br>
+	<
 </body>
 </html>
