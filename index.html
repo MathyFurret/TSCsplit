@@ -4,6 +4,11 @@
 <title>tsc-stream by mathfreak231</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script>
+//set up ajax so all requests will go to this one URL
+$.ajaxSetup({
+	url: "http://soniccenter.org/source/utilities/codebot.php"
+});
+
 //which games have which categories
 var catIDs = new Array();
 catIDs[0] = "";
@@ -91,14 +96,49 @@ function updateCategories() {
 	}
 }
 
+//use TSC's IRC handler as an API to get stats
+function fetchClass(){
+	var username = $("input[name=user]").val();
+	var game_id = $("select[name=game]").val();
+	var cat_id = $("select[name=cat]").val();
+	var level_name = $("input[name=level_name]").val();
+	var div_order = $("input[name=division_order]").val();
+	
+	var data = {
+		choice: "21"
+	};
+	if (game_id != "0") data['g'] = game_id;
+	if (cat_id != "0") data['c'] = cat_id;
+	if (level_name != "") data['ln'] = level_name;
+	data['do'] = div_order;
+	
+	var search_results = $.ajax({
+		data: data
+	}).responseText;
+	
+	if search_results.match(/Class \d+ is/) { //result returned in the case of exactly 1 match
+		var first_extract = search_results.match(/Class (\d+) is (.+?)\. (.+) is in \x02\x03\d{2}1st place\x03\x02 out of (\d+) on this chart with (.+)/)
+		//class number, full level name, first place user, number of players, first place stat
+		if username.toLowerCase() === first_extract[3] {
+			console.log(first_extract[2] + " " + first_extract[3] + " 1/" first_extract[4] + " " + first_extract[5])
+		} else {
+			var get_user = $.ajax({
+				data: {choice: "25", class: first_extract[1], name: username}
+			}).responseText
+		}
+	}
+}
+
 $(document).ready(function() {
 	$('select[name=game]').change(updateCategories);
 });
 
 </script>
 </head>
-<body style="font:sans-serif;">
-  <label for="game">Game: </label><select name='game'>
+<body style="font-family:sans-serif;">
+	<label for="user">Your username: </label><input type="text" name="user"><br>
+	Search for a chart: <br>
+	<label for="game">Game: </label><select name='game'>
 		<option value='0' selected>Select a game...</option>
 		<option value='5'>Sonic 1</option>
 		<option value='124'>Sonic 1 2013</option>
@@ -169,6 +209,9 @@ $(document).ready(function() {
 		<option value='11'>Ring Chains</option>
 		<option value='7'>Freestyle</option>
 	</select><br>
-	<
+	<label for="level_name">Level name: </label><input type="text" name="level_name"><br>
+	<label for="division_order">Division number: </label><input type="number" name="division_order" min="1"><br>
+	<input type="reset"><input type="button" value="Go!"><br>
+	<div class="output"></div>
 </body>
 </html>
