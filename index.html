@@ -120,7 +120,7 @@ function fetchClass(){
 		var first_extract = search_results.match(/Class (\d+) is (.+?)\. (.+) is in \x02\x03\d{2}1st place\x03\x02 out of (\d+) on this chart with (.+)/);
 		//class number, full level name, first place user, number of players, first place stat
 		if (username.toLowerCase() === first_extract[3]) {
-			console.log(first_extract[2] + " " + first_extract[3] + " 1/" first_extract[4] + " " + first_extract[5]);
+			console.log(first_extract[2] + " " + first_extract[3] + " 1/" + first_extract[4] + " " + first_extract[5]);
 		} else {
 			var get_user = $.ajax({
 				data: {choice: "25", class: first_extract[1], name: username}
