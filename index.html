@@ -6,7 +6,7 @@
 <script>
 //set up ajax so all requests will go to this one URL
 $.ajaxSetup({
-	url: "https://crossorigin.me/http://soniccenter.org/source/utilities/codebot.php"
+	url: "http://soniccenter.org/source/utilities/codebot.php"
 });
 
 //which games have which categories
@@ -100,7 +100,7 @@ function updateCategories() {
 function fetchClass(){
 	var username = $("input[name=user]").val();
 	var game_id = $("select[name=game]").val();
-	var cat_id = $("select[name=cat]").val();
+	var cat_id = $("select[name=category]").val();
 	var level_name = $("input[name=level_name]").val();
 	var div_order = $("input[name=division_order]").val();
 	
