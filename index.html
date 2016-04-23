@@ -131,7 +131,7 @@ function fetchClass(){
 
 $(document).ready(function() {
 	$('select[name=game]').change(updateCategories);
-	$('button[value=Go!]').click(fetchClass);
+	$('button.submit-button').click(fetchClass);
 });
 
 </script>
@@ -212,7 +212,7 @@ $(document).ready(function() {
 	</select><br>
 	<label for="level_name">Level name: </label><input type="text" name="level_name"><br>
 	<label for="division_order">Division number: </label><input type="number" name="division_order" value="1" min="1"><br>
-	<input type="reset"><input type="button" value="Go!"><br>
+	<input type="reset"><input type="button" value="Go!" class="submit-button"><br>
 	<div class="output"></div>
 </body>
 </html>
