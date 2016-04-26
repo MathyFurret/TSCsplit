@@ -2,13 +2,10 @@
 <html>
 <head>
 <title>TSCsplit by mathfreak231</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="scripts/jquery.js"></script>
+<script src="scripts/uri.js"></script>
+<script src="scripts/jsonp.js"></script>
 <script>
-//set up ajax so all requests will go to this one URL
-$.ajaxSetup({
-	url: "http://soniccenter.org/source/utilities/codebot.php"
-});
-
 //which games have which categories
 var catIDs = new Array();
 catIDs[0] = "";
@@ -112,7 +109,8 @@ function fetchClass(){
 	if (level_name !== "") data['ln'] = level_name;
 	data['do'] = div_order;
 	
-	var search_results = $.ajax({
+	var search_results = $.jsonp({
+		url: "http://soniccenter.org/source/utilities/codebot.php",
 		data: data
 	}).responseText;
 	
@@ -122,7 +120,8 @@ function fetchClass(){
 		if (username.toLowerCase() === first_extract[3]) {
 			console.log(first_extract[2] + " " + first_extract[3] + " 1/" + first_extract[4] + " " + first_extract[5]);
 		} else {
-			var get_user = $.ajax({
+			var get_user = $.jsonp({
+				url: "http://soniccenter.org/source/utilities/codebot.php",
 				data: {choice: "25", class: first_extract[1], name: username}
 			}).responseText
 		}
