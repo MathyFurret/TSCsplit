@@ -6,6 +6,10 @@
 <script src="scripts/uri.js"></script>
 <script src="scripts/jsonp.js"></script>
 <script>
+function parseStat(stat) {
+	//do later
+}
+
 //which games have which categories
 var catIDs = new Array();
 catIDs[0] = "";
@@ -109,28 +113,33 @@ function fetchClass(){
 	if (level_name !== "") data['ln'] = level_name;
 	data['do'] = div_order;
 	
-	var search_results = $.jsonp({
+	$.jsonp({
 		url: "http://soniccenter.org/source/utilities/codebot.php",
-		data: data
-	}).responseText;
-	
-	if (search_results.match(/Class \d+ is/)) { //result returned in the case of exactly 1 match
-		var first_extract = search_results.match(/Class (\d+) is (.+?)\. (.+) is in \x02\x03\d{2}1st place\x03\x02 out of (\d+) on this chart with (.+)/);
-		//class number, full level name, first place user, number of players, first place stat
-		if (username.toLowerCase() === first_extract[3]) {
-			console.log(first_extract[2] + " " + first_extract[3] + " 1/" + first_extract[4] + " " + first_extract[5]);
-		} else {
-			var get_user = $.jsonp({
-				url: "http://soniccenter.org/source/utilities/codebot.php",
-				data: {choice: "25", class: first_extract[1], name: username}
-			}).responseText
+		data: data,
+		success: function(response) {
+			if (response.match(/Class \d+ is/)) { //result returned in the case of exactly 1 match
+				var first_extract = response.match(/Class (\d+) is (.+?)\. (.+) is in \x02\x03\d{2}1st place\x03\x02 out of (\d+) on this chart with (.+)/);
+				//class number, full level name, first place user, number of players, first place stat
+				console.log(first_extract[2] + " " + first_extract[3] + " 1/" + first_extract[4] + " " + first_extract[5]);
+				if (username.toLowerCase() !== first_extract[3]) {
+					$.jsonp({
+						url: "http://soniccenter.org/source/utilities/codebot.php",
+						data: {choice: "25", class: first_extract[1], name: username},
+						success: function(response) {
+							var next_extract = response.match(/(.+) is in \x02\x03\d{2}(\d+)\w{2} place\x03\x02 out of (\d+) on this chart with (.+)/)
+							//user, position, number of players, stat
+							console.log(first_extract[2] + " " + next_extract[1] + " " + next_extract[2] + "/" + next_extract[3] + " " + next_extract[4])
+						}
+					});
+				}
+			}
 		}
-	}
+	});
 }
 
 $(document).ready(function() {
 	$('select[name=game]').change(updateCategories);
-	$('button.submit-button').click(fetchClass);
+	$('input.submit').click(fetchClass);
 });
 
 </script>
@@ -211,7 +220,7 @@ $(document).ready(function() {
 	</select><br>
 	<label for="level_name">Level name: </label><input type="text" name="level_name"><br>
 	<label for="division_order">Division number: </label><input type="number" name="division_order" value="1" min="1"><br>
-	<input type="reset"><input type="button" value="Go!" class="submit-button"><br>
+	<input type="reset"><input type="button" value="Go!" class="submit"><br>
 	<div class="output"></div>
 </body>
 </html>
