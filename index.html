@@ -116,23 +116,37 @@ function fetchClass(){
 	$.jsonp({
 		url: "http://soniccenter.org/source/utilities/codebot.php",
 		data: data,
+		beforeSend: function() {
+			$('.loading').show();
+		},
 		success: function(response) {
 			if (response.match(/Class \d+ is/)) { //result returned in the case of exactly 1 match
 				var first_extract = response.match(/Class (\d+) is (.+?)\. (.+) is in \x02\x03\d{2}1st place\x03\x02 out of (\d+) on this chart with (.+)/);
 				//class number, full level name, first place user, number of players, first place stat
-				console.log(first_extract[2] + " " + first_extract[3] + " 1/" + first_extract[4] + " " + first_extract[5]);
+				$('.output').html(first_extract[2] + " " + first_extract[3] + " 1/" + first_extract[4] + " " + first_extract[5]);
 				if (username.toLowerCase() !== first_extract[3]) {
 					$.jsonp({
 						url: "http://soniccenter.org/source/utilities/codebot.php",
 						data: {choice: "25", class: first_extract[1], name: username},
 						success: function(response) {
-							var next_extract = response.match(/(.+) is in \x02\x03\d{2}(\d+)\w{2} place\x03\x02 out of (\d+) on this chart with (.+)/)
+							var next_extract = response.match(/(.+) is in \x02\x03\d{2}(\d+)\w{2} place\x03\x02 out of (\d+) on this chart with (.+)/);
 							//user, position, number of players, stat
-							console.log(first_extract[2] + " " + next_extract[1] + " " + next_extract[2] + "/" + next_extract[3] + " " + next_extract[4])
+							$('.output').html($('.output').html() + '<br>' + first_extract[2] + " " + next_extract[1] + " " + next_extract[2] + "/" + next_extract[3] + " " + next_extract[4]);
+						},
+						error: function() {
+							$('.output').html("Failed to access TSC. Perhaps the website is down?");
 						}
 					});
 				}
+			} else {
+				$('.output').html(response);
 			}
+		},
+		error: function() {
+			$('.output').html("Failed to access TSC. Perhaps the website is down?");
+		},
+		complete: function() {
+			$('.loading').hide();
 		}
 	});
 }
@@ -221,6 +235,7 @@ $(document).ready(function() {
 	<label for="level_name">Level name: </label><input type="text" name="level_name"><br>
 	<label for="division_order">Division number: </label><input type="number" name="division_order" value="1" min="1"><br>
 	<input type="reset"><input type="button" value="Go!" class="submit"><br>
-	<div class="output"></div>
+	<div class="output"></div><br>
+	<img src="http://sierrafire.cr.usgs.gov/images/loading.gif" class="loading" style="display:none;" width="50" height="50"/>
 </body>
 </html>
