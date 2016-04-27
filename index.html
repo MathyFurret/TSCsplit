@@ -143,7 +143,7 @@ function fetchClass(){
 				$('.output').html(response);
 			}
 			*/
-			$('.output').html(response);
+			$('.output').html(response.data);
 		},
 		error: function() {
 			$('.output').html("Failed to access TSC. Perhaps the website is down?");
