@@ -9,7 +9,7 @@ function request(data, options) {
       url += "&" + key + "=" + data[key];
     }
   }
-  url = "http://cors.io/?u=" + encodeURIComponent(url); //be sneaky and use a proxy
+  url = "http://cors.io/?u=" + encodeURIComponent(url.replace(" ", "+")); //be sneaky and use a proxy
   options.url = url;
   return $.ajax(options);
 }
