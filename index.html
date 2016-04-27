@@ -120,6 +120,7 @@ function fetchClass(){
 			$('.loading').show();
 		},
 		success: function(response) {
+			/*
 			if (response.match(/Class \d+ is/)) { //result returned in the case of exactly 1 match
 				var first_extract = response.match(/Class (\d+) is (.+?)\. (.+) is in \x02\x03\d{2}1st place\x03\x02 out of (\d+) on this chart with (.+)/);
 				//class number, full level name, first place user, number of players, first place stat
@@ -141,6 +142,8 @@ function fetchClass(){
 			} else {
 				$('.output').html(response);
 			}
+			*/
+			$('.output').html(response);
 		},
 		error: function() {
 			$('.output').html("Failed to access TSC. Perhaps the website is down?");
