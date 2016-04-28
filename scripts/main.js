@@ -14,6 +14,10 @@ function request(data, options) {
   return $.ajax(options);
 }
 
+function TSCError() {
+	$('.output').html("Failed to access TSC. Perhaps the website is down?");
+}
+
 function parseStat(stat) {
 	//do later
 }
@@ -122,9 +126,7 @@ function fetchClass(){
 	data['do'] = div_order;
 	
 	request(data, {
-		beforeSend: function() {
-			$('.loading').show();
-		},
+		beforeSend: function() {$('.loading').show();},
 		success: function(response) {
 			/*
 			if (response.match(/Class \d+ is/)) { //result returned in the case of exactly 1 match
@@ -138,24 +140,25 @@ function fetchClass(){
 							//user, position, number of players, stat
 							$('.output').html($('.output').html() + '<br>' + first_extract[2] + " " + next_extract[1] + " " + next_extract[2] + "/" + next_extract[3] + " " + next_extract[4]);
 						},
-						error: function() {
-							$('.output').html("Failed to access TSC. Perhaps the website is down?");
-						}
+						error: TSCError
 					});
 				}
-			} else {
+				$('.output').html(response);
+			} else if (response.match(/\d+ /)) { //result returned multiple search results
+				$('.output').html(response);
+			} else { //most likely, no search results were returned
 				$('.output').html(response);
 			}
 			*/
 			$('.output').html(response);
 		},
-		error: function() {
-			$('.output').html("Failed to access TSC. Perhaps the website is down?");
-		},
-		complete: function() {
-			$('.loading').hide();
-		}
+		error: TSCError,
+		complete: function() {$('.loading').hide();}
 	});
+}
+
+function fetchRankings(class) {
+	//do later
 }
 
 $(document).ready(function() {
