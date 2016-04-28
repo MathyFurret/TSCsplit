@@ -11,13 +11,17 @@ function request(data, options) {
   }
   url = "http://cors.io/?u=" + encodeURIComponent(url.replace(" ", "+")); //be sneaky and use a proxy
   options.url = url;
+  options.error = TSCError;
   return $.ajax(options);
 }
 
-function TSCError() {
-	$('.output').html("Failed to access TSC. Perhaps the website is down?");
+function addOutput(v) {
+	$('.output').html($('.output').html() + "<br>" + v);
 }
 
+function TSCError() {
+	addOutput("Failed to access TSC. Perhaps the website is down?");
+}
 function parseStat(stat) {
 	//do later
 }
@@ -117,9 +121,7 @@ function fetchClass(){
 	var level_name = $("input[name=level_name]").val();
 	var div_order = $("input[name=division_order]").val();
 	
-	var data = {
-		choice: "21"
-	};
+	var data = {choice: "21"};
 	if (game_id !== "0") data['g'] = game_id;
 	if (cat_id !== "0") data['c'] = cat_id;
 	if (level_name !== "") data['ln'] = level_name;
@@ -128,37 +130,23 @@ function fetchClass(){
 	request(data, {
 		beforeSend: function() {$('.loading').show();},
 		success: function(response) {
-			/*
-			if (response.match(/Class \d+ is/)) { //result returned in the case of exactly 1 match
-				var first_extract = response.match(/Class (\d+) is (.+?)\. (.+) is in \x02\x03\d{2}1st place\x03\x02 out of (\d+) on this chart with (.+)/);
-				//class number, full level name, first place user, number of players, first place stat
-				$('.output').html(first_extract[2] + " " + first_extract[3] + " 1/" + first_extract[4] + " " + first_extract[5]);
-				if (username.toLowerCase() !== first_extract[3]) {
-					request({choice: "25", class: first_extract[1], name: username}, {
-						success: function(response) {
-							var next_extract = response.match(/(.+) is in \x02\x03\d{2}(\d+)\w{2} place\x03\x02 out of (\d+) on this chart with (.+)/);
-							//user, position, number of players, stat
-							$('.output').html($('.output').html() + '<br>' + first_extract[2] + " " + next_extract[1] + " " + next_extract[2] + "/" + next_extract[3] + " " + next_extract[4]);
-						},
-						error: TSCError
-					});
-				}
-				$('.output').html(response);
-			} else if (response.match(/\d+ /)) { //result returned multiple search results
-				$('.output').html(response);
+			if (response.match(/Class \d+ is/)) { //returned exactly 1 match
+				fetchRankings(response.match(/Class (\d+) is/)[1])
+			} else if (response.match(/\d+ class numbers match your search/)) { //returned multiple search results; in this case, just get the first one
+				fetchRankings(response.match(/\d+ class numbers match your search: (\d+)/)[1])
 			} else { //most likely, no search results were returned
-				$('.output').html(response);
+				addOutput(response);
 			}
-			*/
-			$('.output').html(response);
 		},
-		error: TSCError,
 		complete: function() {$('.loading').hide();}
 	});
 }
 
-function fetchRankings(class) {
-	//do later
+function fetchRankings(classid) {
+	request({choice: '22', 'class': classid}, {success: function(response) {
+		//Class 11111 is Sonic Colors DS / Rings / Overall (Total). mathfreak231 is in 151st place out of 14 on this chart with 1p.
+		var chart_data = response.match(/Class \d+ is (.+)\. (.+) is in (?:a \d+-way tie for )\x02\x03\d{2}(\d+)\w{2} place\x03\x02 out of (\d+) on this chart with (.+).)
+	}});
 }
 
 $(document).ready(function() {
