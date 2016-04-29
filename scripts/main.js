@@ -9,7 +9,7 @@ function request(data, options) {
       url += "&" + key + "=" + data[key];
     }
   }
-  url = "http://cors.io/?u=" + encodeURIComponent(url.replace(" ", "+")); //be sneaky and use a proxy
+  url = "http://cors.io/?u=" + encodeURIComponent(url); //be sneaky and use a proxy
   options.url = url;
   options.error = TSCError;
   return $.ajax(options);
@@ -115,7 +115,6 @@ function updateCategories() {
 
 //use TSC's IRC handler as an API to get stats
 function fetchClass(){
-	var username = $("input[name=user]").val();
 	var game_id = $("select[name=game]").val();
 	var cat_id = $("select[name=category]").val();
 	var level_name = $("input[name=level_name]").val();
@@ -143,9 +142,14 @@ function fetchClass(){
 }
 
 function fetchRankings(classid) {
+	var username = $("input[name=user]").val().toLowerCase();
 	request({choice: '22', 'class': classid}, {success: function(response) {
-		//Class 11111 is Sonic Colors DS / Rings / Overall (Total). mathfreak231 is in 151st place out of 14 on this chart with 1p.
-		var chart_data = response.match(/Class \d+ is (.+)\. (.+) is in (?:a \d+-way tie for )\x02\x03\d{2}(\d+)\w{2} place\x03\x02 out of (\d+) on this chart with (.+).)
+		var chart_data = response.match(/Class \d+ is (.+)\. (.+) is in (?:a \d+-way tie for )?\x02\x03\d{2}(\d+)\w{2} place\x03\x02 out of (\d+) on this chart with (.+?)(?:, saying ".+")?\.$/);
+		addOutput(chart_data[1]);
+		//levelname, user, position, numplayers, stat
+		if (chart_data[2].toLowerCase() === username) { //the user is in first place
+			addOutput(chart_data[2]);
+		}
 	}});
 }
 
