@@ -157,7 +157,7 @@ function fetchRankings(classid) {
 				var chart_data_PB = response.match(/Class \d+ is (.+)\. (.+) is in (?:a \d+-way tie for )?\x02\x03\d{2}(\d+)\w{2} place\x03\x02 out of (\d+) on this chart with (.+?)(?:, saying ".+")?\.$/);
 				addOutput("My PB: " + chart_data[5])
 			}
-		}
+		}});
 	}});
 }
 
