@@ -9,7 +9,7 @@ function request(data, options) {
       url += "&" + key + "=" + data[key];
     }
   }
-  url = "http://cors.io/?u=" + encodeURIComponent(url.replace(" ","%20")); //be sneaky and use a proxy
+  url = "http://cors.io/?u=" + encodeURIComponent(url); //be sneaky and use a proxy
   options.url = url;
   options.error = TSCError;
   return $.ajax(options);
@@ -121,7 +121,7 @@ function updateCategories() {
 function fetchClass(){
 	var game_id = $("select[name=game]").val();
 	var cat_id = $("select[name=category]").val();
-	var level_name = $("input[name=level_name]").val();
+	var level_name = $("input[name=level_name]").val().replace(" ","%20");
 	var div_order = $("input[name=division_order]").val();
 	
 	var data = {choice: "21"};
