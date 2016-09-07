@@ -9,7 +9,7 @@ function request(data, options) {
       url += "&" + key + "=" + data[key];
     }
   }
-  url = "http://cors.io/?u=" + encodeURIComponent(url); //be sneaky and use a proxy
+  url = "http://cors.io/?u=" + encodeURIComponent(url.replace(" ","%20")); //be sneaky and use a proxy
   options.url = url;
   options.error = TSCError;
   return $.ajax(options);
@@ -17,6 +17,10 @@ function request(data, options) {
 
 function addOutput(v) {
 	$('.output').html($('.output').html() + "<br>" + v);
+}
+
+function clearOutput() {
+	$('.output').html('')
 }
 
 function TSCError() {
@@ -147,8 +151,12 @@ function fetchRankings(classid) {
 		var chart_data = response.match(/Class \d+ is (.+)\. (.+) is in (?:a \d+-way tie for )?\x02\x03\d{2}(\d+)\w{2} place\x03\x02 out of (\d+) on this chart with (.+?)(?:, saying ".+")?\.$/);
 		addOutput(chart_data[1]);
 		//levelname, user, position, numplayers, stat
-		if (chart_data[2].toLowerCase() === username) { //the user is in first place
-			addOutput(chart_data[2]);
+		addOutput("Record: " + chart_data[5] + " by " + chart_data[2]);
+		if (chart_data[2].toLowerCase() !== username) { //the user is NOT in first place
+			request({choice: '25', 'class': classid, 'name': username}, {success: function(response) {
+				var chart_data_PB = response.match(/Class \d+ is (.+)\. (.+) is in (?:a \d+-way tie for )?\x02\x03\d{2}(\d+)\w{2} place\x03\x02 out of (\d+) on this chart with (.+?)(?:, saying ".+")?\.$/);
+				addOutput("My PB: " + chart_data[5])
+			}
 		}
 	}});
 }
